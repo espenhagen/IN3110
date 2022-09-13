@@ -247,19 +247,73 @@ def test_mean_1d():
 
 
 def test_add_2d():
-    pass
+    #Given
+    a1 = Array((2,2),1,2,3,4)
+    a2 = Array((2,2),5.3,6.2,7.5,8.4)
+    a3 = Array((2,2),6,8,10,12)
 
+    #When
+    sum = a1 + 10
+    #Then
+    assert sum[1][1] == 14
+
+    #When
+    sum = 10 + a1
+    #Then
+    assert sum[1][1] == 14
+
+    #When
+    sum = a2 + 1.5
+    #Then
+    assert sum[1][1] == pytest.approx(9.9,0.1)
+
+    #When
+    sum = 1.5 + a2
+    #Then
+    assert sum[1][1] == pytest.approx(9.9,0.1)
+
+    #When
+    sum = 10 + a1
+    #Then
+    assert sum[1][1] == 14
+
+    #when
+    sum = a1 + a3
+    #Then
+    assert sum[1][1] == 16
+
+
+    # assert (10 + a1) == a4
+    # assert (a1 + 1.5)is_equal(Array((2,2),2.5,3.5,4.5,5.5)) == [True,True]
+    # assert (1.5 + a1) == Array((2,2),2.5,3.5,4.5,5.5)
+    # assert (a1 + a3) == a3
 
 def test_mult_2d():
-    pass
+    #Given
+    a1 = Array((2,2),1,2,3,4)
+    a2 = Array((2,2),5,6,7,8)
+    #When
+    mul = a1 * a2
+    #Then
+    assert mul[0][1] == 12
 
 
 def test_same_2d():
-    pass
+    #Given
+    a1 = Array((2,2),1,2,3,4)
+    a2 = Array((2,2),1,6,3,4)
+    #when
+    a3 = a1.is_equal(a2)
+    #Then
+    assert a3[0][1] == False
+    assert a3[1][0] == True
 
 
 def test_mean_2d():
-    pass
+    #given
+    a1 = Array((3,2),10,73,34,50,43,40)
+    #Then
+    assert pytest.approx(a1.mean_element(), 0.1) == 42
 
 
 if __name__ == "__main__":

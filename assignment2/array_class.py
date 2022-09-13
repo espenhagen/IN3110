@@ -123,6 +123,10 @@ class Array:
                 if isinstance(element, bool):
                     raise ValueError("All values have to be of the same type.")
 
+    def getFlat(self):
+        """ Return a flat representation of the array."""
+        return self._flatArray
+
     def __str__(self):
         """Returns a nicely printable string representation of the array.
 
@@ -194,9 +198,10 @@ class Array:
             if other.shape != self.shape:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
+                flatOther = other.getFlat()
                 newList = []
                 for i in range(len(self._flatArray)):
-                    newList.append(self._flatArray[i] + other[i])
+                    newList.append(self._flatArray[i] + flatOther[i])
 
                 return Array(self.shape, newList)
 
@@ -248,10 +253,13 @@ class Array:
 
             if other.shape != self.shape:
                 raise ValueError("Number of values does not fit with array shape.")
+
             else:
                 newList = []
+                flatOther = other.getFlat()
+
                 for i in range(len(self._flatArray)):
-                    newList.append(self._flatArray[i] - other[i])
+                    newList.append(self._flatArray[i] - flatOther[i])
 
                 return Array(self.shape, newList)
 
@@ -283,10 +291,13 @@ class Array:
 
             if other.shape != self.shape:
                 raise ValueError("Number of values does not fit with array shape.")
+
             else:
                 newList = []
+                flatOther = other.getFlat()
+
                 for i in range(len(self._flatArray)):
-                    newList.append(other[i] - self._flatArray[i])
+                    newList.append(flatOther[i] - self._flatArray[i])
 
                 return Array(self.shape, newList)
 
@@ -318,10 +329,13 @@ class Array:
 
             if other.shape != self.shape:
                 raise ValueError("Number of values does not fit with array shape.")
+
             else:
                 newList = []
+                flatOther = other.getFlat()
+
                 for i in range(len(self._flatArray)):
-                    newList.append(self._flatArray[i] * other[i])
+                    newList.append(self._flatArray[i] * flatOther[i])
 
                 return Array(self.shape, newList)
 
@@ -388,12 +402,13 @@ class Array:
             if self.shape == other.shape:
 
                 matchList = []
+                flatOther = other.getFlat()
 
                 for i in range(len(self._flatArray)):
-                    if self._flatArray[i] == other[i]:
+                    if self._flatArray[i] == flatOther[i]:
                         matchList.append(True)
 
-                    elif self._flatArray[i] != other[i]:
+                    elif self._flatArray[i] != flatOther[i]:
                         matchList.append(False)
 
                 return Array(self.shape, matchList)
