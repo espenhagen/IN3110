@@ -61,7 +61,7 @@ class Array:
         self.dimentions = len(shape)
         self.numberOfRows = shape[0]
         self.shape = shape
-        self.array = list(values)
+        self._array = list(values)
         self.type = type(values[0])
 
     def _tupleProduct(self, tuple):
@@ -109,7 +109,7 @@ class Array:
             str: A string representation of the array.
 
         """
-        return str(self.array)
+        return str(self._array)
 
 
     def __getitem__(self, index):
@@ -126,7 +126,7 @@ class Array:
             ValueError
         """
         try:
-            return self.array[index]
+            return self._array[index]
         except (IndexError, TypeError) as e:
             print("Error when indexing array: ", e)
             exit()
@@ -144,11 +144,11 @@ class Array:
             Array: the sum as a new array.
 
         """
-        if isinstance(self.array[0], bool) or isinstance(other, bool):
+        if isinstance(self._array[0], bool) or isinstance(other, bool):
             return NotImplemented
 
         elif isinstance(other, int) or isinstance(other, float):
-            newList = [item + other for item in self.array]
+            newList = [item + other for item in self._array]
 
             return Array(self.shape, newList)
 
@@ -158,8 +158,8 @@ class Array:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
                 newList = []
-                for i in range(len(self.array)):
-                    newList.append(self.array[i] + other[i])
+                for i in range(len(self._array)):
+                    newList.append(self._array[i] + other[i])
 
                 return Array(self.shape, newList)
 
@@ -199,12 +199,13 @@ class Array:
             Array: the difference as a new array.
 
         """
-        if isinstance(self.array[0], bool) or isinstance(other, bool):
+        if isinstance(self._array[0], bool) or isinstance(other, bool):
             return NotImplemented
 
         elif isinstance(other, int) or isinstance(other, float):
+            newList = [item - other for item in self._array]
 
-            return self.__add__(other * -1)
+            return Array(self.shape, newList)
 
         elif isinstance(other, Array):
 
@@ -212,8 +213,8 @@ class Array:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
                 newList = []
-                for i in range(len(self.array)):
-                    newList.append(self.array[i] - other[i])
+                for i in range(len(self._array)):
+                    newList.append(self._array[i] - other[i])
 
                 return Array(self.shape, newList)
 
@@ -233,8 +234,27 @@ class Array:
             Array: the difference as a new array.
 
         """
+        if isinstance(self._array[0], bool) or isinstance(other, bool):
+            return NotImplemented
 
-        return self.__sub__(other)
+        elif isinstance(other, int) or isinstance(other, float):
+            newList = [other - item for item in self._array]
+
+            return Array(self.shape, newList)
+
+        elif isinstance(other, Array):
+
+            if other.shape != self.shape:
+                raise ValueError("Number of values does not fit with array shape.")
+            else:
+                newList = []
+                for i in range(len(self._array)):
+                    newList.append(other[i] - self._array[i])
+
+                return Array(self.shape, newList)
+
+        else:
+            return NotImplemented
 
     def __mul__(self, other):
         """Element-wise multiplies this Array with a number or array.
@@ -249,11 +269,11 @@ class Array:
             Array: a new array with every element multiplied with `other`.
 
         """
-        if isinstance(self.array[0], bool) or isinstance(other, bool):
+        if isinstance(self._array[0], bool) or isinstance(other, bool):
             return NotImplemented
 
         elif isinstance(other, int) or isinstance(other, float):
-            newList = [item * other for item in self.array]
+            newList = [item * other for item in self._array]
 
             return Array(self.shape, newList)
 
@@ -263,8 +283,8 @@ class Array:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
                 newList = []
-                for i in range(len(self.array)):
-                    newList.append(self.array[i] + other[i])
+                for i in range(len(self._array)):
+                    newList.append(self._array[i] * other[i])
 
                 return Array(self.shape, newList)
 
@@ -332,11 +352,11 @@ class Array:
 
                 matchList = []
 
-                for i in range(len(self.array)):
-                    if self.array[i] == other[i]:
+                for i in range(len(self._array)):
+                    if self._array[i] == other[i]:
                         matchList.append(True)
 
-                    elif self.array[i] != other[i]:
+                    elif self._array[i] != other[i]:
                         matchList.append(False)
 
                 return Array(self.shape, matchList)
@@ -348,11 +368,11 @@ class Array:
 
             matchList = []
 
-            for i in range(len(self.array)):
-                if self.array[i] == other:
+            for i in range(len(self._array)):
+                if self._array[i] == other:
                     matchList.append(True)
 
-                elif self.array[i] != other:
+                elif self._array[i] != other:
                     matchList.append(False)
 
             return Array(self.shape, matchList)
@@ -371,13 +391,13 @@ class Array:
 
         """
 
-        if isinstance(self.array[0], bool):
+        if isinstance(self._array[0], bool):
             return NotImplemented
 
         else:
-            minste = self.array[0]
+            minste = self._array[0]
 
-            for number in self.array:
+            for number in self._array:
                 if number < minste:
                     minste = number
 
@@ -391,4 +411,4 @@ class Array:
         Returns:
             float: the mean value
         """
-        return float(sum(self.array) / len(self.array))
+        return float(sum(self._array) / len(self._array))
