@@ -283,11 +283,6 @@ def test_add_2d():
     assert sum[1][1] == 16
 
 
-    # assert (10 + a1) == a4
-    # assert (a1 + 1.5)is_equal(Array((2,2),2.5,3.5,4.5,5.5)) == [True,True]
-    # assert (1.5 + a1) == Array((2,2),2.5,3.5,4.5,5.5)
-    # assert (a1 + a3) == a3
-
 def test_mult_2d():
     #Given
     a1 = Array((2,2),1,2,3,4)
