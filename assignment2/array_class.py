@@ -61,8 +61,36 @@ class Array:
         self.dimentions = len(shape)
         self.numberOfRows = shape[0]
         self.shape = shape
-        self._array = list(values)
+        self._flatArray = list(values)
+        self._2dArray = self._make2dArray(values,shape)
         self.type = type(values[0])
+
+
+    def _make2dArray(self, tuple, shape):
+        """ Helper method to make 2d grid from one-dimetional input argument.
+
+		Args:
+			tuple (tuple) - the tuple we want to make into grid.
+            shape (tuple) - the shape of the wanted grid
+
+        Returns:
+            list() - a list of lists representing a 2d array.
+        """
+        if len(shape) == 1:
+            return list(tuple)
+        else:
+
+            variables = list(tuple)
+            arrayList = []
+
+            # Spliting variables-list in to lists of the same size as to the number of
+            # collumns in the array. The 2d-array grid are made when the lists
+            # are appended to a list arrayList.
+            for i in range(0, len(variables), shape[1]):
+                arrayList.append(variables[i:i+shape[1]])
+
+            return arrayList
+
 
     def _tupleProduct(self, tuple):
         """Calculating product of the elements in a tuple."""
@@ -95,13 +123,6 @@ class Array:
                 if isinstance(element, bool):
                     raise ValueError("All values have to be of the same type.")
 
-    def _appendElementToArray(self, e):
-        """ Append a new element to the end of the array.
-
-        Args:
-            e (int, boolen, float) - argument have to be of same type as the other elements in the Array.
-        """
-
     def __str__(self):
         """Returns a nicely printable string representation of the array.
 
@@ -109,8 +130,16 @@ class Array:
             str: A string representation of the array.
 
         """
-        return str(self._array)
+        if self.dimentions == 1:    # Array is one-dimentional
+            return str(self._flatArray)
 
+        else:       # Array is a two dimentional grid.
+            prettyString = str(self._2dArray[0])
+
+            for row in self._2dArray[1:]:
+                prettyString = prettyString + "\n" + str(row)
+
+            return prettyString
 
     def __getitem__(self, index):
         """Returns element on place 'index' in the4 array.
@@ -126,7 +155,15 @@ class Array:
             ValueError
         """
         try:
-            return self._array[index]
+            item = self._2dArray[index]
+
+            if isinstance(item, int) or isinstance(item, bool) or isinstance(item, float):
+                return item
+
+            else:
+            # Making rows into arrays.
+                return Array((self.shape[1],), item)
+
         except (IndexError, TypeError) as e:
             print("Error when indexing array: ", e)
             exit()
@@ -144,11 +181,11 @@ class Array:
             Array: the sum as a new array.
 
         """
-        if isinstance(self._array[0], bool) or isinstance(other, bool):
+        if isinstance(self._flatArray[0], bool) or isinstance(other, bool):
             return NotImplemented
 
         elif isinstance(other, int) or isinstance(other, float):
-            newList = [item + other for item in self._array]
+            newList = [item + other for item in self._flatArray]
 
             return Array(self.shape, newList)
 
@@ -158,8 +195,8 @@ class Array:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
                 newList = []
-                for i in range(len(self._array)):
-                    newList.append(self._array[i] + other[i])
+                for i in range(len(self._flatArray)):
+                    newList.append(self._flatArray[i] + other[i])
 
                 return Array(self.shape, newList)
 
@@ -199,11 +236,11 @@ class Array:
             Array: the difference as a new array.
 
         """
-        if isinstance(self._array[0], bool) or isinstance(other, bool):
+        if isinstance(self._flatArray[0], bool) or isinstance(other, bool):
             return NotImplemented
 
         elif isinstance(other, int) or isinstance(other, float):
-            newList = [item - other for item in self._array]
+            newList = [item - other for item in self._flatArray]
 
             return Array(self.shape, newList)
 
@@ -213,8 +250,8 @@ class Array:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
                 newList = []
-                for i in range(len(self._array)):
-                    newList.append(self._array[i] - other[i])
+                for i in range(len(self._flatArray)):
+                    newList.append(self._flatArray[i] - other[i])
 
                 return Array(self.shape, newList)
 
@@ -234,11 +271,11 @@ class Array:
             Array: the difference as a new array.
 
         """
-        if isinstance(self._array[0], bool) or isinstance(other, bool):
+        if isinstance(self._flatArray[0], bool) or isinstance(other, bool):
             return NotImplemented
 
         elif isinstance(other, int) or isinstance(other, float):
-            newList = [other - item for item in self._array]
+            newList = [other - item for item in self._flatArray]
 
             return Array(self.shape, newList)
 
@@ -248,8 +285,8 @@ class Array:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
                 newList = []
-                for i in range(len(self._array)):
-                    newList.append(other[i] - self._array[i])
+                for i in range(len(self._flatArray)):
+                    newList.append(other[i] - self._flatArray[i])
 
                 return Array(self.shape, newList)
 
@@ -269,11 +306,11 @@ class Array:
             Array: a new array with every element multiplied with `other`.
 
         """
-        if isinstance(self._array[0], bool) or isinstance(other, bool):
+        if isinstance(self._flatArray[0], bool) or isinstance(other, bool):
             return NotImplemented
 
         elif isinstance(other, int) or isinstance(other, float):
-            newList = [item * other for item in self._array]
+            newList = [item * other for item in self._flatArray]
 
             return Array(self.shape, newList)
 
@@ -283,8 +320,8 @@ class Array:
                 raise ValueError("Number of values does not fit with array shape.")
             else:
                 newList = []
-                for i in range(len(self._array)):
-                    newList.append(self._array[i] * other[i])
+                for i in range(len(self._flatArray)):
+                    newList.append(self._flatArray[i] * other[i])
 
                 return Array(self.shape, newList)
 
@@ -352,11 +389,11 @@ class Array:
 
                 matchList = []
 
-                for i in range(len(self._array)):
-                    if self._array[i] == other[i]:
+                for i in range(len(self._flatArray)):
+                    if self._flatArray[i] == other[i]:
                         matchList.append(True)
 
-                    elif self._array[i] != other[i]:
+                    elif self._flatArray[i] != other[i]:
                         matchList.append(False)
 
                 return Array(self.shape, matchList)
@@ -368,11 +405,11 @@ class Array:
 
             matchList = []
 
-            for i in range(len(self._array)):
-                if self._array[i] == other:
+            for i in range(len(self._flatArray)):
+                if self._flatArray[i] == other:
                     matchList.append(True)
 
-                elif self._array[i] != other:
+                elif self._flatArray[i] != other:
                     matchList.append(False)
 
             return Array(self.shape, matchList)
@@ -391,13 +428,13 @@ class Array:
 
         """
 
-        if isinstance(self._array[0], bool):
+        if isinstance(self._flatArray[0], bool):
             return NotImplemented
 
         else:
-            minste = self._array[0]
+            minste = self._flatArray[0]
 
-            for number in self._array:
+            for number in self._flatArray:
                 if number < minste:
                     minste = number
 
@@ -411,4 +448,4 @@ class Array:
         Returns:
             float: the mean value
         """
-        return float(sum(self._array) / len(self._array))
+        return float(sum(self._flatArray) / len(self._flatArray))

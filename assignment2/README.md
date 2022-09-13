@@ -7,6 +7,8 @@ README.md - this file
 array_class.py - containing the class 'Array'
 test_array.py - tests for the class 'Array'
 
+The Array-class is implemented for one- and two dimentional Arrays.
+
 test_array.py can be run in the terminal using the command 'pytest' if
 the pytest-package is installed, or run with the command 'python3 pytest.py'.
 
@@ -17,5 +19,3 @@ Import the Array class to another the python file like this:
 from array_class import Array
 
  .....  .... (your project here)
-
-So far I have implemented the Array-class for one-dimentional Arrays only.
