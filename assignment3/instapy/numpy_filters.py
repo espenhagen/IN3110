@@ -14,10 +14,20 @@ def numpy_color2gray(image: np.array) -> np.array:
     """
 
     gray_image = np.empty_like(image)
+    
+    gray_image[:,:,0] = image[:,:,0] * 0.21
+    gray_image[:,:,1] = image[:,:,1] * 0.72
+    gray_image[:,:,2] = image[:,:,2] * 0.07
+    
+    sumarray = (image[:,:,0]*0.21) + (image[:,:,1]*0.72) + (image[:,:,2] * 0.07)
+    
+    gray_image[:,:,0] = sumarray
+    gray_image[:,:,1] = sumarray
+    gray_image[:,:,2] = sumarray
+    
+    
+    gray_image = gray_image.astype("uint8")
 
-    # Hint: use numpy slicing in order to have fast vectorized code
-    ...
-    # Return image (make sure it's the right type!)
     return gray_image
 
 
@@ -42,18 +52,36 @@ def numpy_color2sepia(image: np.array, k: Optional[float] = 1) -> np.array:
         # validate k (optional)
         raise ValueError(f"k must be between [0-1], got {k=}")
 
-    sepia_image = ...
+    sepia_matrix = [
+        [ 0.393, 0.769, 0.189],
+        [ 0.349, 0.686, 0.168],
+        [ 0.272, 0.534, 0.131],
+        ]
 
-    # define sepia matrix (optional: with `k` tuning parameter for bonus task 13)
-    sepia_matrix = ...
+    sepia_image = np.empty_like(image)
 
-    # HINT: For version without adaptive sepia filter, use the same matrix as in the pure python implementation
-    # use Einstein sum to apply pixel transform matrix
-    # Apply the matrix filter
-    sepia_image = ...
+    for row in range(image.shape[0]):
+        for collumn in range(image.shape[1]):
+        
+            channels = image[row][collumn]
 
-    # Check which entries have a value greater than 255 and set it to 255 since we can not display values bigger than 255
-    ...
+            sepia_r = np.sum(channels * sepia_matrix[0])
+            sepia_g = np.sum(channels * sepia_matrix[1])
+            sepia_b = np.sum(channels * sepia_matrix[2])
 
-    # Return image (make sure it's the right type!)
+            if sepia_r > 255:
+                sepia_r = 255
+
+            if sepia_g > 255:
+                sepia_g = 255
+
+            if sepia_b > 255:
+                sepia_b = 255
+
+            sepia_image[row][collumn][0] = sepia_r
+            sepia_image[row][collumn][1] = sepia_g
+            sepia_image[row][collumn][2] = sepia_b
+ 
+    sepia_image = sepia_image.astype("uint8")
+
     return sepia_image
