@@ -29,6 +29,9 @@ def numba_color2gray(image: np.array) -> np.array:
 
     return gray_image
 
+# Source reference: The following article from dyclassroom was used as
+# inspiration and help for implementing the function numba_color2sepia:
+# URL: https://dyclassroom.com/image-processing-project/how-to-convert-a-color-image-into-sepia-image
 @jit
 def numba_color2sepia(image: np.array) -> np.array:
     """Convert rgb pixel array to sepia
@@ -70,4 +73,3 @@ def numba_color2sepia(image: np.array) -> np.array:
 
     # return image
     return sepia_image
-    

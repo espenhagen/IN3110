@@ -13,7 +13,7 @@ def python_color2gray(image: np.array) -> np.array:
         np.array: gray_image
     """
     gray_image = np.empty_like(image)
-    
+
     # iterate through the pixels, and apply the grayscale transform
     for row in range(image.shape[0]):
         for collumn in range(image.shape[1]):
@@ -24,11 +24,13 @@ def python_color2gray(image: np.array) -> np.array:
             gray_image[row][collumn][0] = grey
             gray_image[row][collumn][1] = grey
             gray_image[row][collumn][2] = grey
-    
+
     gray_image = gray_image.astype("uint8")
     return gray_image
 
-
+# Source reference: The following article from dyclassroom was used as 
+# inspiration and help for implementing the function python_color2sepia:
+# URL: https://dyclassroom.com/image-processing-project/how-to-convert-a-color-image-into-sepia-image
 def python_color2sepia(image: np.array) -> np.array:
     """Convert rgb pixel array to sepia
 
@@ -38,7 +40,7 @@ def python_color2sepia(image: np.array) -> np.array:
         np.array: sepia_image
     """
     sepia_image = np.empty_like(image)
-    
+
     # Iterate through the pixels
     for row in range(image.shape[0]):
         for collumn in range(image.shape[1]):
