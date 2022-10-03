@@ -31,9 +31,11 @@ in any python code. To import a function use the following import sentence
 at the beginning of your code file:
 
 General form:
-    from instapy.<module> import <function>,<function>,...
+
+    from instapy.module import function, function, ...
 
 Example of use:
+
     from instapy.python_filters import python_color2gray
 
 The imported function can then be applied in the code by calling, e.g:
@@ -50,7 +52,7 @@ The following functionality is not implemented:
     - Tests for image filters
     - Command-line interface
 
-##5: Notes to peer reviewer
+## 5: Notes to peer reviewer
 Hi! Welcome to my implementation of 'instapy', and thanks for doing the peer
 review. Just a few notes:
 At the time of turning in the assignment I had not yet finished all the tasks.
