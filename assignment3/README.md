@@ -1,6 +1,6 @@
-#Instapy
+# Instapy
 
-##Contents:
+## Contents:
 
 1. What is 'instapy'?
 2. How to install the package 'instapy'?
@@ -8,14 +8,14 @@
 4. Functionality not yet implemented.
 5. Notes to peer reviewer.
 
-##1: What is 'instapy'?
+## 1: What is 'instapy'?
 
 Instapy is a software package for python3 that provide functions that can convert
 an image into a grayscale og sepia image. The package has several implementations
 of the same tools, where the only difference is the speed of converting an image.
 The reason for this difference in speed is different implementations under the hood.
 
-##2: How to install the package 'instapy'?
+## 2: How to install the package 'instapy'?
 
 Instapy can be installed as a package with pip. To install instapy do:
 1. Open a terminal window and navigate to the folder assignment3.
@@ -25,7 +25,7 @@ Instapy can be installed as a package with pip. To install instapy do:
 
 3. Instapy is ready to use.
 
-##3: How to run the functions from 'instapy'?
+## 3: How to run the functions from 'instapy'?
 After installing instapy with pip you can import and use the filter functions
 in any python code. To import a function use the following import sentence
 at the beginning of your code file:
@@ -40,7 +40,7 @@ The imported function can then be applied in the code by calling, e.g:
 
     python_color2gray()
 
-##4: Functionality not yet implemented
+## 4: Functionality not yet implemented
 In the package all the grayscale filters and the sepia filters are implemented
 and ready to use. The package is installable with pip. However at the time of
 turning in, the package is not yet complete according to the tasks
