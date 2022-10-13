@@ -1,6 +1,6 @@
 """pure Python implementation of image filters"""
 
-from email.mime import image
+# Removed unused import
 import numpy as np
 
 
@@ -25,8 +25,8 @@ def python_color2gray(image: np.array) -> np.array:
             gray_image[row][collumn][1] = grey
             gray_image[row][collumn][2] = grey
 
-    gray_image = gray_image.astype("uint8")
-    return gray_image
+    # Moved astype function to return statement
+    return gray_image.astype("uint8")
 
 # Source reference: The following article from dyclassroom was used as 
 # inspiration and help for implementing the function python_color2sepia:
@@ -66,9 +66,6 @@ def python_color2sepia(image: np.array) -> np.array:
             sepia_image[row][collumn][1] = sepia_g
             sepia_image[row][collumn][2] = sepia_b
 
-    # make sure it's the right type!
-    sepia_image = sepia_image.astype("uint8")
-
     # Return image
-
-    return sepia_image
+    # Moved astype function to return statement
+    return sepia_image.astype("uint8")
