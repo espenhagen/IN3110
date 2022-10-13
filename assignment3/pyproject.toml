@@ -23,4 +23,5 @@ dependencies = [
 
 
 [project.scripts]
-# instapy = "..."
+# Adding a script called instapy. The script calls the function main in instapy.cli
+instapy = "instapy.cli:main"
