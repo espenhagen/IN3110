@@ -19,17 +19,23 @@ def run_filter(
 ) -> None:
     """Run the selected filter"""
     # load the image from a file
-    image = ...
+    image = io.read_image(file)
+
     if scale != 1:
-        # Resize image, if needed
-        ...
+        # Resize image by scaling factor, if provided
+        image = Image.fromarray(image)
+        image = image.resize((image.width // scale, image.height // scale))
+        image = np.asarray(image)
+
+    # Get the filter function
+    filter_function = instapy.get_filter(filter= filter, implementation= implementation)
 
     # Apply the filter
-    ...
-    filtered = ...
+    filtered = filter_function(image)
+
     if out_file:
         # save the file
-        ...
+        io.write_image(filtered, out_file)
     else:
         # not asked to save, display it instead
         io.display(filtered)
@@ -47,7 +53,10 @@ def main(argv=None):
     parser.add_argument("-o", "--out", help="The output filename")
 
     # Add required arguments
-    ...
+    parser.add_argument("-i", "--implementation", default= "python", help="The implementation")
+    parser.add_argument("-f", "--filter", default= "color2gray", help="Select filter type")
+    parser.add_argument("-sc", "--scale", type= int, default= 1, help="Scale factor to resize image")
 
     # parse arguments and call run_filter
-    ...
+    argv = parser.parse_args()
+    run_filter(file=argv.file, out_file=argv.out, implementation=argv.implementation, filter=argv.filter, scale=argv.scale)
