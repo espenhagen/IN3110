@@ -5,7 +5,7 @@ Can be executed as `python3 -m instapy.timing`
 
 For Task 6.
 """
-import time
+import timeit
 import instapy
 from . import io
 from typing import Callable
@@ -32,7 +32,7 @@ def time_one(filter_function: Callable, *arguments, calls: int = 3) -> float:
     """
     # run the filter function `calls` times
     # return the _average_ time of one call
-    ...
+    return timeit.timeit(stmt=lambda: filter_function(*arguments), number=calls)/calls
 
 
 def make_reports(filename: str = "test/rain.jpg", calls: int = 3):
@@ -45,27 +45,27 @@ def make_reports(filename: str = "test/rain.jpg", calls: int = 3):
     """
 
     # load the image
-    image = ...
+    image = io.read_image(filename)
     # print the image name, width, height
-    ...
+    print("Timing performed using '" + filename.split()[-1] + "': " + str(len(image[0])) + "x" + str(len(image)))
     # iterate through the filters
-    filter_names = ...
+    filter_names = ["color2gray", "color2sepia"]
     for filter_name in filter_names:
         # get the reference filter function
-        reference_filter = ...
+        reference_filter = instapy.get_filter(filter_name, "python")
         # time the reference implementation
-        reference_time = ...
+        reference_time = time_one(reference_filter, image)
         print(
             f"Reference (pure Python) filter time {filter_name}: {reference_time:.3}s ({calls=})"
         )
         # iterate through the implementations
-        implementations = ...
+        implementations = ["python", "numpy", "numba"]
         for implementation in implementations:
-            filter = ...
+            filter = instapy.get_filter(filter_name, implementation)
             # time the filter
-            filter_time = ...
+            filter_time = time_one(filter, image)
             # compare the reference time to the optimized time
-            speedup = ...
+            speedup = reference_time/filter_time
             print(
                 f"Timing: {implementation} {filter_name}: {filter_time:.3}s ({speedup=:.2f}x)"
             )
