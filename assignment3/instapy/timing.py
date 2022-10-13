@@ -47,7 +47,7 @@ def make_reports(filename: str = "test/rain.jpg", calls: int = 3):
     # load the image
     image = io.read_image(filename)
     # print the image name, width, height
-    print("Timing performed using '" + filename.split()[-1] + "': " + str(len(image[0])) + "x" + str(len(image)))
+    print("Timing performed using '" + filename.split("/")[-1] + "': " + str(len(image[0])) + "x" + str(len(image)))
     # iterate through the filters
     filter_names = ["color2gray", "color2sepia"]
     for filter_name in filter_names:
@@ -59,7 +59,7 @@ def make_reports(filename: str = "test/rain.jpg", calls: int = 3):
             f"Reference (pure Python) filter time {filter_name}: {reference_time:.3}s ({calls=})"
         )
         # iterate through the implementations
-        implementations = ["python", "numpy", "numba"]
+        implementations = ["numpy", "numba"]
         for implementation in implementations:
             filter = instapy.get_filter(filter_name, implementation)
             # time the filter
