@@ -42,15 +42,23 @@ The imported function can then be applied in the code by calling, e.g:
 
     python_color2gray()
 
+The filters can also be applied directly to an image:
+
+    instapy <path to file> 
+
+Certain arguments are available from the command-line:
+    -f filter
+    -i implementation
+    -sc scale
+    -h help
+
 ## 4: Functionality not yet implemented
 In the package all the grayscale filters and the sepia filters are implemented
 and ready to use. The package is installable with pip. However at the time of
 turning in, the package is not yet complete according to the tasks
 of the assignment3.
 The following functionality is not implemented:
-    - Timer and profiling reports.
-    - Tests for image filters
-    - Command-line interface
+    - Profiling reports.
 
 ## 5: Notes to peer reviewer
 Hi! Welcome to my implementation of 'instapy', and thanks for doing the peer
