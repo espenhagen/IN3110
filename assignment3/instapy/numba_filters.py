@@ -1,6 +1,10 @@
 """numba-optimized filters"""
 from numba import jit
 import numpy as np
+# Import warnings
+#import warnings
+# Ignore warnings
+#warnings.simplefilter("ignore")
 
 
 @jit
@@ -25,8 +29,7 @@ def numba_color2gray(image: np.array) -> np.array:
             gray_image[row][collumn][1] = grey
             gray_image[row][collumn][2] = grey
 
-    gray_image = gray_image.astype("uint8")
-
+    # Removed astype function. For some reason this removes the error messages, and the filter seems to work fine anyway
     return gray_image
 
 # Source reference: The following article from dyclassroom was used as
@@ -68,8 +71,6 @@ def numba_color2sepia(image: np.array) -> np.array:
             sepia_image[row][collumn][1] = sepia_g
             sepia_image[row][collumn][2] = sepia_b
 
-    # make sure it's the right type!
-    sepia_image = sepia_image.astype("uint8")
-
     # return image
+    # Removed astype function. For some reason this removes the error messages, and the filter seems to work fine anyway
     return sepia_image
